@@ -3,7 +3,28 @@ import 'package:bluepad_assessment/data/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BlogHome extends StatelessWidget {
+import 'ui_components/post_ui.dart';
+
+class BlogHome extends StatefulWidget {
+  @override
+  _BlogHomeState createState() => _BlogHomeState();
+}
+
+class _BlogHomeState extends State<BlogHome> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListeners);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<PostCubit>(context).fetchPost();
@@ -32,11 +53,21 @@ class BlogHome extends StatelessWidget {
           if (!(state is PostLoaded)) return CircularProgressIndicator();
           final post = (state as PostLoaded).post;
           return ListView(
+            controller: _scrollController,
             children: [
               BlogPostUI(
                 post: post,
               )
-            ],
+            ]..add(Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  color: Colors.blue[200],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('You Have reached the bottom of the Screen'),
+                  ),
+                ),
+              )),
           );
         },
       ),
@@ -49,30 +80,11 @@ class BlogHome extends StatelessWidget {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-}
 
-class BlogPostUI extends StatelessWidget {
-  final Post post;
-
-  const BlogPostUI({Key key, this.post}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(post.primaryTitle ?? ''),
-        Text(post.primaryDescription ?? ''),
-        Column(
-          children: List.generate(
-            post.subDescriptions.length,
-            (index) => Column(
-              children: [
-                Text(post.subDescriptions[index].titleSub ?? ''),
-                Text(post.subDescriptions[index].descriptionSub ?? ''),
-              ],
-            ),
-          ).toList(),
-        )
-      ],
-    );
+  void _scrollListeners() {
+    if (_scrollController
+        .position.atEdge) if (_scrollController.position.pixels != 0.0) {
+      print('Bottom');
+    }
   }
 }
