@@ -1,18 +1,16 @@
-import 'package:bluepad_assessment/cubit/post_cubit.dart';
-import 'package:bluepad_assessment/data/post_repository.dart';
-import 'package:bluepad_assessment/presentation/screens/blog_home.dart';
+import 'package:bluepad_assessment/presentation/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(BlogApp());
+  runApp(BlogApp(
+    router: AppRouter(),
+  ));
 }
 
 class BlogApp extends StatelessWidget {
-  Repository repository;
-  BlogApp() {
-    repository = Repository();
-  }
+  final AppRouter router;
+
+  const BlogApp({Key key, this.router}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,12 +19,7 @@ class BlogApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-        create: (context) => PostCubit(
-          repository: repository,
-        ),
-        child: BlogHome(),
-      ),
+      onGenerateRoute: router.generateRoute,
     );
   }
 }
