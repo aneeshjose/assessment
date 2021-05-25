@@ -1,4 +1,5 @@
 import 'package:bluepad_assessment/cubit/post_cubit.dart';
+import 'package:bluepad_assessment/data/post_repository.dart';
 import 'package:bluepad_assessment/presentation/screens/blog_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,10 @@ void main() {
 }
 
 class BlogApp extends StatelessWidget {
+  Repository repository;
+  BlogApp() {
+    repository = Repository();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +22,9 @@ class BlogApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        create: (context) => PostCubit(),
+        create: (context) => PostCubit(
+          repository: repository,
+        ),
         child: BlogHome(),
       ),
     );

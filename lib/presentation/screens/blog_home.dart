@@ -1,8 +1,11 @@
+import 'package:bluepad_assessment/cubit/post_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlogHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<PostCubit>(context).fetchPost();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
