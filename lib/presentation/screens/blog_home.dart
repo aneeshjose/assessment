@@ -8,6 +8,7 @@ class BlogHome extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: InkWell(
+          onTap: () => _showSnackBar(context),
           child: Icon(
             Icons.home,
             color: Colors.black,
@@ -26,5 +27,12 @@ class BlogHome extends StatelessWidget {
         child: Text(''),
       ),
     );
+  }
+
+  void _showSnackBar(BuildContext context) {
+    SnackBar snackBar = SnackBar(
+      content: Text('Home button pressed'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
