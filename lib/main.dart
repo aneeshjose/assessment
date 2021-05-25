@@ -1,5 +1,7 @@
+import 'package:bluepad_assessment/cubit/post_cubit.dart';
 import 'package:bluepad_assessment/presentation/screens/blog_home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(BlogApp());
@@ -14,7 +16,10 @@ class BlogApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlogHome(),
+      home: BlocProvider(
+        create: (context) => PostCubit(),
+        child: BlogHome(),
+      ),
     );
   }
 }
