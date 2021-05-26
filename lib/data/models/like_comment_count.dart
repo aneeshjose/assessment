@@ -2,6 +2,6 @@ class LikeCommentCount {
   String likes;
   String comments;
   LikeCommentCount.fromJson(Map statJson)
-      : likes = statJson['likes'],
-        comments = statJson['comments'];
+      : likes = statJson['likes']?.toString(),
+        comments = statJson['comments']?.toString();
 }
