@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:bluepad_assessment/data/models/post.dart';
-import 'package:bluepad_assessment/data/models/post_comments.dart';
 import 'package:bluepad_assessment/data/post_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -14,11 +13,5 @@ class PostCubit extends Cubit<PostState> {
     repository.fetchPostFromMock().then(
           (post) => emit(PostLoaded(post: post)),
         );
-  }
-
-  void fetchComments(String postId) {
-    repository
-        .fetchCommentsFromMock(postId)
-        .then((comments) => CommentsLoaded(comments: comments));
   }
 }
