@@ -10,10 +10,8 @@ class Repository {
     return Post.fromJson(posts);
   }
 
-  Future<List<PostComments>> fetchCommentsFromMock(String postId) async {
+  Future<List<PostComment>> fetchCommentsFromMock(String postId) async {
     final List<Map> comments = await mockNetworkService.fetchComments(postId);
-    print(comments);
-    return [];
-    // return comments.map((comment) => PostComments.fromJson(comment)).toList();
+    return comments.map((comment) => PostComment.fromJson(comment)).toList();
   }
 }

@@ -6,7 +6,7 @@ abstract class CommentState {}
 class CommentInitial extends CommentState {}
 
 class CommentsLoaded extends CommentState {
-  final List<PostComments> comments;
+  final List<PostComment> comments;
 
   CommentsLoaded({this.comments});
 }

@@ -13,6 +13,6 @@ class CommentCubit extends Cubit<CommentState> {
     print("POSTID:$postId");
     repository
         .fetchCommentsFromMock(postId)
-        .then((comments) => CommentsLoaded(comments: comments));
+        .then((comments) => emit(CommentsLoaded(comments: comments)));
   }
 }

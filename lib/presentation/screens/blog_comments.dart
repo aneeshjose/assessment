@@ -1,4 +1,5 @@
 import 'package:bluepad_assessment/cubit/comment_cubit.dart';
+import 'package:bluepad_assessment/presentation/screens/components/comment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +17,19 @@ class BlogComments extends StatelessWidget {
           'Comments',
           style: TextStyle(color: Colors.blue[200]),
         ),
+        iconTheme: IconThemeData(color: Colors.blue[200]),
+      ),
+      body: BlocBuilder<CommentCubit, CommentState>(
+        builder: (context, state) {
+          if (!(state is CommentsLoaded)) return CircularProgressIndicator();
+          final comments = (state as CommentsLoaded).comments;
+          return ListView.builder(
+            itemCount: comments.length,
+            itemBuilder: (context, index) => CommentUI(
+              comment: comments[index],
+            ),
+          );
+        },
       ),
     );
   }
