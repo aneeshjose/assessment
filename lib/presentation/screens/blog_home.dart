@@ -94,7 +94,9 @@ class _BlogHomeState extends State<BlogHome> {
           (context) => BottomSheet(
             onClosing: () => false,
             builder: (context) {
-              return BottomActionButtons();
+              return BottomActionButtons(
+                postId: postId,
+              );
             },
           ),
         );

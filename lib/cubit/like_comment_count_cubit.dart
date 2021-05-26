@@ -11,6 +11,20 @@ class LikeCommentCountCubit extends Cubit<LikeCommentCountState> {
   LikeCommentCountCubit({this.repository}) : super(LikeCommentCountInitial());
 
   void fetchLikeComments(String postId) {
-    repository.fetchLikesAndCommentOfPost(postId);
+    repository
+        .fetchLikesAndCommentOfPost(postId)
+        .then((value) => emit(LikeCommentCountLoaded(value)));
+  }
+
+  void addLike(String postId) {
+    repository
+        .addLikeToPost(postId)
+        .then((value) => emit(LikeCommentCountLoaded(value)));
+  }
+
+  void addComment(String postId) {
+    repository
+        .addCommentToPost(postId)
+        .then((value) => emit(LikeCommentCountLoaded(value)));
   }
 }

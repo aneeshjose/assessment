@@ -1,10 +1,6 @@
-import 'package:bluepad_assessment/cubit/like_comment_count_cubit.dart';
-import 'package:bluepad_assessment/data/mock_network_service.dart';
 import 'package:bluepad_assessment/data/models/post.dart';
-import 'package:bluepad_assessment/data/post_repository.dart';
 import 'package:bluepad_assessment/presentation/screens/components/likes_and_comments_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlogPostUI extends StatelessWidget {
   final Post post;
@@ -118,12 +114,8 @@ class BlogPostUI extends StatelessWidget {
           ),
         ),
         // Likes and comments
-        BlocProvider(
-          create: (context) => LikeCommentCountCubit(
-              repository: Repository(mockNetworkService: MockNetworkService())),
-          child: LikesAndComments(
-            post: post,
-          ),
+        LikesAndComments(
+          post: post,
         ),
         SizedBox(height: 70)
       ],

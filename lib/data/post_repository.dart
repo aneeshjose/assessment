@@ -21,4 +21,14 @@ class Repository {
     final Map countMap = await mockNetworkService.fetchLikeCommentCount(postId);
     return LikeCommentCount.fromJson(countMap);
   }
+
+  Future<LikeCommentCount> addLikeToPost(String postId) async {
+    final Map countMap = await mockNetworkService.appendLikes(postId);
+    return LikeCommentCount.fromJson(countMap);
+  }
+
+  Future<LikeCommentCount> addCommentToPost(String postId) async {
+    final Map countMap = await mockNetworkService.appendComments(postId);
+    return LikeCommentCount.fromJson(countMap);
+  }
 }
