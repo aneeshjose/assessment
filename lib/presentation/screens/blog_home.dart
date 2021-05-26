@@ -1,5 +1,5 @@
 import 'package:bluepad_assessment/cubit/post_cubit.dart';
-import 'package:bluepad_assessment/data/models/post.dart';
+import 'package:bluepad_assessment/presentation/screens/ui_components/bottom_action_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +12,7 @@ class BlogHome extends StatefulWidget {
 
 class _BlogHomeState extends State<BlogHome> {
   final ScrollController _scrollController = ScrollController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _BlogHomeState extends State<BlogHome> {
   Widget build(BuildContext context) {
     BlocProvider.of<PostCubit>(context).fetchPost();
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -58,16 +60,7 @@ class _BlogHomeState extends State<BlogHome> {
               BlogPostUI(
                 post: post,
               )
-            ]..add(Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  color: Colors.blue[200],
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('You Have reached the bottom of the Screen'),
-                  ),
-                ),
-              )),
+            ],
           );
         },
       ),
@@ -81,10 +74,26 @@ class _BlogHomeState extends State<BlogHome> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void _scrollListeners() {
-    if (_scrollController
-        .position.atEdge) if (_scrollController.position.pixels != 0.0) {
-      print('Bottom');
+  PersistentBottomSheetController _bottomSheetController;
+
+  Future<void> _scrollListeners() async {
+    if (_scrollController.position.atEdge) {
+      if (_scrollController.position.pixels != 0.0) {
+        _bottomSheetController = _scaffoldKey.currentState.showBottomSheet(
+          (context) => BottomSheet(
+            onClosing: () => false,
+            builder: (context) {
+              return BottomActionButtons();
+            },
+          ),
+        );
+      }
+    } else {
+      try {
+        _bottomSheetController.close();
+      } catch (e) {
+        print(e);
+      }
     }
   }
 }
