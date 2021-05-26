@@ -1,5 +1,4 @@
 import 'package:bluepad_assessment/cubit/like_comment_count_cubit.dart';
-import 'package:bluepad_assessment/data/models/like_comment_count.dart';
 import 'package:bluepad_assessment/data/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +21,11 @@ class LikesAndComments extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
           child: BlocBuilder<LikeCommentCountCubit, LikeCommentCountState>(
               builder: (context, state) {
-            print("emit");
-            if (!(state is LikeCommentCountLoaded))
-              return Container();
-            else {
+            if (!(state is LikeCommentCountLoaded)) {
+              return Container(
+                height: 60,
+              );
+            } else {
               final stat = (state as LikeCommentCountLoaded).stat;
               return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
