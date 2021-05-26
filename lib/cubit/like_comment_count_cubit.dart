@@ -17,14 +17,12 @@ class LikeCommentCountCubit extends Cubit<LikeCommentCountState> {
   }
 
   void addLike(String postId) {
-    emit(LikeLoading());
     repository
         .addLikeToPost(postId)
         .then((value) => emit(LikeCommentCountLoaded(value)));
   }
 
   void addComment(String postId) {
-    emit(CommentLoading());
     repository
         .addCommentToPost(postId)
         .then((value) => emit(LikeCommentCountLoaded(value)));

@@ -74,7 +74,7 @@ class MockNetworkService {
   }
 
   Future<Map> appendLikes(String postId) async {
-    return await Future.delayed(Duration(seconds: 1), () {
+    return await Future.delayed(Duration.zero, () {
       postContent[postId]['like_count'] += 1;
       return {
         'likes': postContent[postId]['like_count'],
@@ -84,7 +84,7 @@ class MockNetworkService {
   }
 
   Future<Map> appendComments(String postId) async {
-    return await Future.delayed(Duration(seconds: 1), () {
+    return await Future.delayed(Duration.zero, () {
       postContent[postId]['comment_count'] += 1;
       return {
         'likes': postContent[postId]['like_count'],
