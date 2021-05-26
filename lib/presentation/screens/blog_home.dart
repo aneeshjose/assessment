@@ -29,7 +29,8 @@ class _BlogHomeState extends State<BlogHome> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<PostCubit>(context).fetchPost();
+    BlocProvider.of<PostCubit>(context)
+        .fetchPost(postId: 'ASjdskKJnlkjkJKdsKjmsdsd');
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

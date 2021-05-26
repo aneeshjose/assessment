@@ -9,8 +9,8 @@ class PostCubit extends Cubit<PostState> {
   final Repository repository;
   PostCubit({this.repository}) : super(PostInitial());
 
-  void fetchPost() {
-    repository.fetchPostFromMock().then(
+  void fetchPost({String postId}) {
+    repository.fetchPostFromMock(postId).then(
           (post) => emit(PostLoaded(post: post)),
         );
   }

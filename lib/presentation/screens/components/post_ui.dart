@@ -1,5 +1,10 @@
+import 'package:bluepad_assessment/cubit/likecommentcount_cubit.dart';
+import 'package:bluepad_assessment/data/mock_network_service.dart';
 import 'package:bluepad_assessment/data/models/post.dart';
+import 'package:bluepad_assessment/data/post_repository.dart';
+import 'package:bluepad_assessment/presentation/screens/components/likes_and_comments_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlogPostUI extends StatelessWidget {
   final Post post;
@@ -113,59 +118,13 @@ class BlogPostUI extends StatelessWidget {
           ),
         ),
         // Likes and comments
-        InkWell(
-          onTap: () =>
-              Navigator.pushNamed(context, '/comments', arguments: post.id),
-          child: Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: post.likeCount?.toString() ?? '0',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' Like' + (post.likeCount > 1 ? 's' : ''),
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: post.commentCount?.toString() ?? '0',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' Comment' + (post.commentCount > 1 ? 's' : ''),
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+        BlocProvider(
+          create: (context) => LikeCommentCountCubit(
+              repository: Repository(mockNetworkService: MockNetworkService())),
+          child: LikesAndComments(
+            post: post,
           ),
         ),
-
         SizedBox(height: 70)
       ],
     );
