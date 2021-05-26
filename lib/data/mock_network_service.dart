@@ -2,8 +2,11 @@ class MockNetworkService {
   // mocks the post fetching, like and comment submission
   final Map postContent = {
     "id": "ASjdskKJnlkjkJKdsKjmsdsd",
+    "user_name": "Amrutha Subhekar",
+    "user_id": "SdUlnkdjfslTJHVnfGFHfssbsfuI",
     "like_count": 10,
-    "comment_count": 2,
+    "comment_count": 3,
+    "time": "Mar 23, 2021",
     "primary_title": "Crypto Investor Buys \$69 Million Beeple NFT Art Work",
     "primary_description":
         "The latest news to do the rounds is about the investor from Singapore who bought \$ 69 Million Beeple NFT. Now, that sounds too interesting. However, he is not ready to divulge his real name. In a world like ours, anyone can attack him for his funds. I just learnt that this wealthy investor goes by the name Metakovan. It is a record of sorts in the bitcoin genre. The record-breaking digital artwork is connected to an image file that is connected to a NFT.",
@@ -47,6 +50,7 @@ class MockNetworkService {
         'commenter_id': 'dfJBmmnnkJKGMNBjHhVVhVVhmskj',
         'commenter_name': 'Anu Jadav',
         'comment': 'Appreciate your Work. Keep writing',
+        'time': 'Mar 23, 2021',
       }
     ],
   };

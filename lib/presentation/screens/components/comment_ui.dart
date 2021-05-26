@@ -8,19 +8,56 @@ class CommentUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(Icons.person),
+              ClipOval(
+                child: Container(
+                  color: Colors.black,
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               Expanded(
-                child: Column(
-                  children: [
-                    Text(comment.commenterName),
-                    Text(comment.comment),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        comment.commenterName,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        comment.comment,
+                        style: TextStyle(color: Colors.grey[700]),
+                      ),
+                    ],
+                  ),
                 ),
               )
+            ],
+          ),
+          Row(
+            children: [
+              SizedBox(width: MediaQuery.of(context).size.width / 4),
+              Expanded(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [Icon(Icons.favorite_outline), Text(' 10 Likes')],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [Icon(Icons.comment_outlined), Text(' Reply')],
+                ),
+              ),
+              Text(comment.time),
             ],
           )
         ],

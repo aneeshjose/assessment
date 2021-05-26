@@ -53,16 +53,24 @@ class _BlogHomeState extends State<BlogHome> {
       ),
       body: BlocBuilder<PostCubit, PostState>(
         builder: (context, state) {
-          if (!(state is PostLoaded)) return CircularProgressIndicator();
+          if (!(state is PostLoaded))
+            return Center(child: CircularProgressIndicator());
           final post = (state as PostLoaded).post;
           postId = post.id;
-          return ListView(
-            controller: _scrollController,
-            children: [
-              BlogPostUI(
-                post: post,
-              ),
-            ],
+          return NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification overscroll) {
+              overscroll.disallowGlow();
+              return;
+            },
+            child: ListView(
+              controller: _scrollController,
+              children: [
+                SizedBox(height: 5),
+                BlogPostUI(
+                  post: post,
+                ),
+              ],
+            ),
           );
         },
       ),
