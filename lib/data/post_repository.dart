@@ -12,6 +12,8 @@ class Repository {
 
   Future<List<PostComments>> fetchCommentsFromMock(String postId) async {
     final List<Map> comments = await mockNetworkService.fetchComments(postId);
-    return comments.map((comment) => PostComments.fromJson(comment));
+    print(comments);
+    return [];
+    // return comments.map((comment) => PostComments.fromJson(comment)).toList();
   }
 }

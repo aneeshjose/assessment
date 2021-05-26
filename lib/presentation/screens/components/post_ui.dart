@@ -34,7 +34,8 @@ class BlogPostUI extends StatelessWidget {
         ),
         // Likes and comments
         InkWell(
-          onTap: () => Navigator.pushNamed(context, '/comments'),
+          onTap: () =>
+              Navigator.pushNamed(context, '/comments', arguments: post.id),
           child: Padding(
             padding: EdgeInsets.only(left: 8.0, right: 8.0),
             child: Row(

@@ -16,23 +16,30 @@ class AppRouter {
   Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case "/":
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (BuildContext context) => PostCubit(
-              repository: repository,
+        {
+          return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+              create: (BuildContext context) => PostCubit(
+                repository: repository,
+              ),
+              child: BlogHome(),
             ),
-            child: BlogHome(),
-          ),
-        );
+          );
+        }
       case "/comments":
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (BuildContext context) => CommentCubit(
-              repository: repository,
+        {
+          final id = settings.arguments;
+          return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+              create: (BuildContext context) => CommentCubit(
+                repository: repository,
+              ),
+              child: BlogComments(
+                id: id,
+              ),
             ),
-            child: BlogComments(),
-          ),
-        );
+          );
+        }
       default:
         return MaterialPageRoute(builder: (_) => BlogHome());
     }

@@ -55,6 +55,8 @@ class MockNetworkService {
   }
 
   Future<List<Map>> fetchComments(String id) async {
+    print("ID:$id");
+    print(comments[id]);
     return await Future.delayed(Duration(seconds: 2), () => comments[id]);
   }
 }

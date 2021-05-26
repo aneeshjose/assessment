@@ -10,6 +10,7 @@ class CommentCubit extends Cubit<CommentState> {
   CommentCubit({this.repository}) : super(CommentInitial());
 
   void fetchComments(String postId) {
+    print("POSTID:$postId");
     repository
         .fetchCommentsFromMock(postId)
         .then((comments) => CommentsLoaded(comments: comments));
