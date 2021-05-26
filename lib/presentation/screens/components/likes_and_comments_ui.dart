@@ -1,4 +1,4 @@
-import 'package:bluepad_assessment/cubit/likecommentcount_cubit.dart';
+import 'package:bluepad_assessment/cubit/like_comment_count_cubit.dart';
 import 'package:bluepad_assessment/data/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

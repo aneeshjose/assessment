@@ -1,4 +1,4 @@
-import 'package:bluepad_assessment/cubit/likecommentcount_cubit.dart';
+import 'package:bluepad_assessment/cubit/like_comment_count_cubit.dart';
 import 'package:bluepad_assessment/data/mock_network_service.dart';
 import 'package:bluepad_assessment/data/models/post.dart';
 import 'package:bluepad_assessment/data/post_repository.dart';

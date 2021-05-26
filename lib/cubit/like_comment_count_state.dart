@@ -1,4 +1,4 @@
-part of 'likecommentcount_cubit.dart';
+part of 'like_comment_count_cubit.dart';
 
 @immutable
 abstract class LikeCommentCountState {}
