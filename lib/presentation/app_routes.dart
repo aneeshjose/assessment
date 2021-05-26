@@ -1,4 +1,5 @@
 import 'package:bluepad_assessment/cubit/comment_cubit.dart';
+import 'package:bluepad_assessment/cubit/like_comment_count_cubit.dart';
 import 'package:bluepad_assessment/cubit/post_cubit.dart';
 import 'package:bluepad_assessment/data/mock_network_service.dart';
 import 'package:bluepad_assessment/data/post_repository.dart';
@@ -18,10 +19,19 @@ class AppRouter {
       case "/":
         {
           return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (BuildContext context) => PostCubit(
-                repository: repository,
-              ),
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => PostCubit(
+                    repository: repository,
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => LikeCommentCountCubit(
+                    repository: repository,
+                  ),
+                ),
+              ],
               child: BlogHome(),
             ),
           );
