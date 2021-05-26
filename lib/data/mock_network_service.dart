@@ -40,7 +40,21 @@ class MockNetworkService {
       },
     ]
   };
+  Map comments = {
+    'ASjdskKJnlkjkJKdsKjmsdsd': [
+      {
+        'id': 'SjhsdfjHHGzjhKJHKHHGbmmxhH',
+        'commenter_id': 'dfJBmmnnkJKGMNBjHhVVhVVhmskj',
+        'commenter_name': 'Anu Jadav',
+        'comment': 'Appreciate your Work. Keep writing',
+      }
+    ],
+  };
   Future<Map> fetchPosts() async {
     return await Future.delayed(Duration(seconds: 2), () => postContent);
+  }
+
+  Future<List<Map>> fetchComments(String id) async {
+    return await Future.delayed(Duration(seconds: 2), () => comments[id]);
   }
 }

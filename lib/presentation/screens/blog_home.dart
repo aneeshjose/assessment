@@ -13,6 +13,7 @@ class BlogHome extends StatefulWidget {
 class _BlogHomeState extends State<BlogHome> {
   final ScrollController _scrollController = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String postId;
 
   @override
   void initState() {
@@ -50,19 +51,20 @@ class _BlogHomeState extends State<BlogHome> {
           ),
         ),
       ),
-      body: BlocBuilder<PostCubit, PostState>(
-        builder: (context, state) {
-          if (!(state is PostLoaded)) return CircularProgressIndicator();
-          final post = (state as PostLoaded).post;
-          return ListView(
-            controller: _scrollController,
-            children: [
-              BlogPostUI(
+      body: ListView(
+        controller: _scrollController,
+        children: [
+          BlocBuilder<PostCubit, PostState>(
+            builder: (context, state) {
+              if (!(state is PostLoaded)) return CircularProgressIndicator();
+              final post = (state as PostLoaded).post;
+              postId = post.id;
+              return BlogPostUI(
                 post: post,
-              )
-            ],
-          );
-        },
+              );
+            },
+          )
+        ],
       ),
     );
   }
@@ -79,6 +81,7 @@ class _BlogHomeState extends State<BlogHome> {
   Future<void> _scrollListeners() async {
     if (_scrollController.position.atEdge) {
       if (_scrollController.position.pixels != 0.0) {
+        BlocProvider.of<PostCubit>(context).fetchComments(postId);
         _bottomSheetController = _scaffoldKey.currentState.showBottomSheet(
           (context) => BottomSheet(
             onClosing: () => false,
