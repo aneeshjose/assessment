@@ -33,52 +33,55 @@ class BlogPostUI extends StatelessWidget {
           ),
         ),
         // Likes and comments
-        Padding(
-          padding: EdgeInsets.only(left: 8.0, right: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: '68',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+        InkWell(
+          onTap: () => Navigator.pushNamed(context, '/comments'),
+          child: Padding(
+            padding: EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: '68',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: ' Like',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      )
+                    ],
                   ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: ' Like',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    )
-                  ],
                 ),
-              ),
-              RichText(
-                text: TextSpan(
-                  text: '2',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                RichText(
+                  text: TextSpan(
+                    text: '2',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: ' Comments ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      )
+                    ],
                   ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: ' Comments ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
         SizedBox(height: 80)

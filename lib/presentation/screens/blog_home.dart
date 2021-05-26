@@ -31,27 +31,28 @@ class _BlogHomeState extends State<BlogHome> {
   Widget build(BuildContext context) {
     BlocProvider.of<PostCubit>(context).fetchPost();
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: InkWell(
-            onTap: () => _showSnackBar(context),
-            child: Icon(
-              Icons.home,
-              color: Colors.black,
-              size: 35,
-            ),
-          ),
-          title: Text(
-            'BluePad',
-            style: TextStyle(
-              color: Colors.blue,
-              fontSize: 25,
-            ),
+      key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: InkWell(
+          onTap: () => _showSnackBar(context),
+          child: Icon(
+            Icons.home,
+            color: Colors.black,
+            size: 35,
           ),
         ),
-        body: BlocBuilder<PostCubit, PostState>(builder: (context, state) {
+        title: Text(
+          'BluePad',
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 25,
+          ),
+        ),
+      ),
+      body: BlocBuilder<PostCubit, PostState>(
+        builder: (context, state) {
           if (!(state is PostLoaded)) return CircularProgressIndicator();
           final post = (state as PostLoaded).post;
           postId = post.id;
@@ -63,7 +64,9 @@ class _BlogHomeState extends State<BlogHome> {
               ),
             ],
           );
-        }));
+        },
+      ),
+    );
   }
 
   void _showSnackBar(BuildContext context) {
