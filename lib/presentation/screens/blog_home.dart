@@ -1,3 +1,4 @@
+import 'package:bluepad_assessment/cubit/bottom_sheet_cubit_cubit.dart';
 import 'package:bluepad_assessment/cubit/post_cubit.dart';
 import 'package:bluepad_assessment/presentation/screens/blog_comments.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _BlogHomeState extends State<BlogHome> {
       body: NotificationListener<ScrollUpdateNotification>(
         onNotification: (notification) {
           /// print all visible item's index when scroll updated.
-          print(getVisible());
+          changeUi();
           return true;
         },
         child: BlocBuilder<PostCubit, PostState>(
@@ -73,7 +74,7 @@ class _BlogHomeState extends State<BlogHome> {
               SizedBox(height: 5),
               BlogPostUI(post: post),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                 child: Row(
                   children: [
                     Expanded(child: Container(height: .5, color: Colors.black)),
@@ -236,7 +237,14 @@ class _BlogHomeState extends State<BlogHome> {
                       ),
                     ),
                   ),
-                  BottomActionButtons(postId: post.id),
+                  BlocBuilder<BottomSheetCubitCubit, BottomSheetCubitState>(
+                    builder: (context, state) {
+                      if (state is RemoveBottomSheet) {
+                        return Container();
+                      }
+                      return BottomActionButtons(postId: post.id);
+                    },
+                  )
                 ],
               ),
             );
@@ -246,21 +254,26 @@ class _BlogHomeState extends State<BlogHome> {
     );
   }
 
-  List<int> getVisible() {
-    /// First, get the rect of ListView, and then traver the _keys
+  void changeUi() {
+    /// First, get the rect of ListView, and then traverse the _keys
     /// get rect of each item by keys in _keys, and if this rect in the range of ListView's rect,
-    /// add the index into result list.
+    /// set the index as item
     var rect = RectGetter.getRectFromKey(listViewKey);
-    var _items = <int>[];
+    var _item = 0;
     _keys.forEach((index, key) {
       var itemRect = RectGetter.getRectFromKey(key);
       if (itemRect != null &&
           !(itemRect.top > rect.bottom || itemRect.bottom < rect.top))
-        _items.add(index);
+        _item = (index);
     });
-
-    /// so all visible item's index are in this _items.
-    return _items;
+    // remove the bottom button set if the bottombuttons inside the page on the screen
+    if (_item >= 5) {
+      BlocProvider.of<BottomSheetCubitCubit>(context).removeBottomButtons();
+    }
+    // Add the bottom button set if the bottombuttons inside the page out of the page
+    if (_item < 5) {
+      BlocProvider.of<BottomSheetCubitCubit>(context).addBottomButtons();
+    }
   }
 
   void _showSnackBar(BuildContext context) {

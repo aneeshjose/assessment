@@ -10,3 +10,7 @@ class PostLoaded extends PostState {
 
   PostLoaded({this.post});
 }
+
+class AddBottomButtons extends PostState {}
+
+class RemoveBottomButtons extends PostState {}

@@ -1,3 +1,4 @@
+import 'package:bluepad_assessment/cubit/bottom_sheet_cubit_cubit.dart';
 import 'package:bluepad_assessment/cubit/comment_cubit.dart';
 import 'package:bluepad_assessment/cubit/like_comment_count_cubit.dart';
 import 'package:bluepad_assessment/cubit/post_cubit.dart';
@@ -25,6 +26,9 @@ class AppRouter {
                   create: (context) => PostCubit(
                     repository: repository,
                   ),
+                ),
+                BlocProvider(
+                  create: (context) => BottomSheetCubitCubit(),
                 ),
                 BlocProvider(
                   create: (context) => LikeCommentCountCubit(
