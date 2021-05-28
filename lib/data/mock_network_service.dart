@@ -53,7 +53,19 @@ class MockNetworkService {
         'commenter_name': 'Anu Jadav',
         'comment': 'Appreciate your Work. Keep writing',
         'time': 'Mar 23, 2021',
-      }
+        'likes': 1,
+        'replies': 0,
+      },
+      {
+        'id': 'SjhsdfjHHGzjsmdjUJDSJskdbv',
+        'commenter_id': 'dfJBmmnnkJKGMNBjHhVVhVVhmdjs',
+        'commenter_name': 'Kiran Bosale',
+        'comment':
+            'Art is the primary purpose of life. Everything else is there to support it',
+        'time': 'Mar 23, 2021',
+        'likes': 0,
+        'replies': 1,
+      },
     ],
   };
   Future<Map> fetchPosts(String id) async {

@@ -31,6 +31,11 @@ class AppRouter {
                     repository: repository,
                   ),
                 ),
+                BlocProvider(
+                  create: (context) => CommentCubit(
+                    repository: repository,
+                  ),
+                ),
               ],
               child: BlogHome(),
             ),

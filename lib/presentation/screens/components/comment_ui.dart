@@ -7,8 +7,10 @@ class CommentUI extends StatelessWidget {
   const CommentUI({Key key, this.comment}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final String likes = comment.likes.toString();
+    final String replies = comment.replies.toString();
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Column(
         children: [
           Row(
@@ -16,9 +18,13 @@ class CommentUI extends StatelessWidget {
               ClipOval(
                 child: Container(
                   color: Colors.black,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
               ),
@@ -48,18 +54,36 @@ class CommentUI extends StatelessWidget {
               Expanded(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Icon(Icons.favorite_outline), Text(' 10 Likes')],
+                  children: [
+                    Icon(Icons.favorite_outline),
+                    Text(comment.likes.toString()),
+                  ],
                 ),
               ),
               Expanded(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Icon(Icons.comment_outlined), Text(' Reply')],
+                  children: [
+                    Icon(Icons.comment_outlined),
+                    Text(comment.replies.toString()),
+                  ],
                 ),
               ),
               Text(comment.time),
             ],
-          )
+          ),
+          if (comment.replies > 0)
+            Container(
+              alignment: Alignment(-.7, 1),
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                'view $replies repl${comment.replies > 1 ? 'ies' : 'y'}',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          Divider(),
         ],
       ),
     );
