@@ -45,20 +45,20 @@ class AppRouter {
             ),
           );
         }
-      case "/comments":
-        {
-          final id = settings.arguments;
-          return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (BuildContext context) => CommentCubit(
-                repository: repository,
-              ),
-              child: BlogComments(
-                id: id,
-              ),
-            ),
-          );
-        }
+      // case "/comments":
+      //   {
+      //     final id = settings.arguments;
+      //     return MaterialPageRoute(
+      //       builder: (_) => BlocProvider(
+      //         create: (BuildContext context) => CommentCubit(
+      //           repository: repository,
+      //         ),
+      //         child: BlogComments(
+      //           id: id,
+      //         ),
+      //       ),
+      //     );
+      //   }
       default:
         return MaterialPageRoute(builder: (_) => BlogHome());
     }

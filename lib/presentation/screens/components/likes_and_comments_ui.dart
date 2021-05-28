@@ -14,64 +14,61 @@ class LikesAndComments extends StatelessWidget {
   Widget build(BuildContext context) {
     BlocProvider.of<LikeCommentCountCubit>(context).fetchLikeComments(post.id);
 
-    return InkWell(
-        onTap: () =>
-            Navigator.pushNamed(context, '/comments', arguments: post.id),
-        child: Padding(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: BlocBuilder<LikeCommentCountCubit, LikeCommentCountState>(
-              builder: (context, state) {
-            if (!(state is LikeCommentCountLoaded)) {
-              return Container(
-                height: 60,
-              );
-            } else {
-              final stat = (state as LikeCommentCountLoaded).stat;
-              return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                          text: stat.likes?.toString() ?? '0',
+    return Padding(
+      padding: EdgeInsets.only(left: 16.0, right: 16.0),
+      child: BlocBuilder<LikeCommentCountCubit, LikeCommentCountState>(
+          builder: (context, state) {
+        if (!(state is LikeCommentCountLoaded)) {
+          return Container(
+            height: 60,
+          );
+        } else {
+          final stat = (state as LikeCommentCountLoaded).stat;
+          return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                  text: TextSpan(
+                      text: stat.likes?.toString() ?? '0',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' Like' + (stat.likes > 1 ? 's' : ''),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: ' Like' + (stat.likes > 1 ? 's' : ''),
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ]),
+                        ),
+                      ]),
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: stat.comments?.toString() ?? '0',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: stat.comments?.toString() ?? '0',
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: ' Comment' + (stat.comments > 1 ? 's' : ''),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Comment' + (stat.comments > 1 ? 's' : ''),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ]);
-            }
-          }),
-        ));
+                      )
+                    ],
+                  ),
+                )
+              ]);
+        }
+      }),
+    );
   }
 }
