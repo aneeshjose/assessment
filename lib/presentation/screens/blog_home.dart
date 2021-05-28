@@ -2,6 +2,7 @@ import 'package:bluepad_assessment/cubit/post_cubit.dart';
 import 'package:bluepad_assessment/presentation/screens/blog_comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rect_getter/rect_getter.dart';
 
 import 'components/bottom_action_buttons.dart';
 import 'components/likes_and_comments_ui.dart';
@@ -16,6 +17,8 @@ class _BlogHomeState extends State<BlogHome> {
   final ScrollController _scrollController = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String postId;
+  Map _keys = {};
+  var listViewKey = RectGetter.createGlobalKey();
 
   @override
   void initState() {
@@ -54,170 +57,210 @@ class _BlogHomeState extends State<BlogHome> {
           ),
         ),
       ),
-      body: BlocBuilder<PostCubit, PostState>(
-        builder: (context, state) {
-          if (!(state is PostLoaded))
-            return Center(child: CircularProgressIndicator());
-          final post = (state as PostLoaded).post;
-          postId = post.id;
-          List uiData = [
-            SizedBox(height: 5),
-            BlogPostUI(post: post),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-              child: Row(
-                children: [
-                  Expanded(child: Container(height: .5, color: Colors.black)),
-                  Text('You Have reached the bottom of the Screen'),
-                  Expanded(child: Container(height: .5, color: Colors.black)),
-                ],
-              ),
-            ),
-            // Likes and comments
-            Divider(),
-            LikesAndComments(
-              post: post,
-            ),
-
-            Divider(),
-            BottomActionButtons(
-              postId: post.id,
-            ),
-
-            Divider(),
-            Container(
-              width: MediaQuery.of(context).size.width / 2,
-              height: 80,
-              // padding: const EdgeInsets.from(12.0),
-              alignment: Alignment(0, 0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipOval(
-                    clipBehavior: Clip.hardEdge,
-                    child: Container(
-                      color: Colors.black,
-                      height: 50,
-                      width: 50,
-                      child: Center(
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width / 2.5,
-                    padding: EdgeInsets.all(10),
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            post.userName,
-                            maxLines: 1,
-                            overflow: TextOverflow.fade,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            post.time,
-                            maxLines: 1,
-                            overflow: TextOverflow.fade,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(15, 8, 15, 8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Text(
-                        'Follow',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Divider(),
-            Container(
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  ClipOval(
-                    child: Container(
-                      width: 55,
-                      height: 55,
-                      color: Colors.grey,
-                      child: Center(
-                        child: Text(
-                          "D",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 30, 10),
-                      child: TextField(
-                        style: TextStyle(fontSize: 20),
-                        decoration: InputDecoration(
-                          isCollapsed: false,
-                          isDense: true,
-                          contentPadding: EdgeInsets.fromLTRB(15, 14, 15, 14),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Divider(),
-            BlogComments(id: post.id),
-            SizedBox(
-              height: 20,
-            ),
-          ];
-          return NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return;
-            },
-            child: ListView.builder(
-              // controller: _scrollController,
-              itemCount: uiData.length,
-              itemBuilder: (context, index) => uiData[index],
-            ),
-          );
+      body: NotificationListener<ScrollUpdateNotification>(
+        onNotification: (notification) {
+          /// print all visible item's index when scroll updated.
+          print(getVisible());
+          return true;
         },
+        child: BlocBuilder<PostCubit, PostState>(
+          builder: (context, state) {
+            if (!(state is PostLoaded))
+              return Center(child: CircularProgressIndicator());
+            final post = (state as PostLoaded).post;
+            postId = post.id;
+            List uiData = [
+              SizedBox(height: 5),
+              BlogPostUI(post: post),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                child: Row(
+                  children: [
+                    Expanded(child: Container(height: .5, color: Colors.black)),
+                    Text('You Have reached the bottom of the Screen'),
+                    Expanded(child: Container(height: .5, color: Colors.black)),
+                  ],
+                ),
+              ),
+              // Likes and comments
+              Divider(),
+              LikesAndComments(
+                post: post,
+              ),
+
+              Divider(),
+              BottomActionButtons(
+                postId: post.id,
+              ),
+
+              Divider(),
+              Container(
+                width: MediaQuery.of(context).size.width / 2,
+                height: 80,
+                // padding: const EdgeInsets.from(12.0),
+                alignment: Alignment(0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipOval(
+                      clipBehavior: Clip.hardEdge,
+                      child: Container(
+                        color: Colors.black,
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              post.userName,
+                              maxLines: 1,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              post.time,
+                              maxLines: 1,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(15, 8, 15, 8),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Text(
+                          'Follow',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Divider(),
+              Container(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    ClipOval(
+                      child: Container(
+                        width: 55,
+                        height: 55,
+                        color: Colors.grey,
+                        child: Center(
+                          child: Text(
+                            "D",
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 30, 10),
+                        child: TextField(
+                          style: TextStyle(fontSize: 20),
+                          decoration: InputDecoration(
+                            isCollapsed: false,
+                            isDense: true,
+                            contentPadding: EdgeInsets.fromLTRB(15, 14, 15, 14),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Divider(),
+              BlogComments(id: post.id),
+              SizedBox(
+                height: 20,
+              ),
+            ];
+            return NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification overscroll) {
+                overscroll.disallowGlow();
+                return;
+              },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: RectGetter(
+                      key: listViewKey,
+                      child: ListView.builder(
+                        // controller: _scrollController,
+                        itemCount: uiData.length,
+                        itemBuilder: (context, index) {
+                          _keys[index] = RectGetter.createGlobalKey();
+                          return RectGetter(
+                            key: _keys[index],
+                            child: uiData[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  BottomActionButtons(postId: post.id),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
+  }
+
+  List<int> getVisible() {
+    /// First, get the rect of ListView, and then traver the _keys
+    /// get rect of each item by keys in _keys, and if this rect in the range of ListView's rect,
+    /// add the index into result list.
+    var rect = RectGetter.getRectFromKey(listViewKey);
+    var _items = <int>[];
+    _keys.forEach((index, key) {
+      var itemRect = RectGetter.getRectFromKey(key);
+      if (itemRect != null &&
+          !(itemRect.top > rect.bottom || itemRect.bottom < rect.top))
+        _items.add(index);
+    });
+
+    /// so all visible item's index are in this _items.
+    return _items;
   }
 
   void _showSnackBar(BuildContext context) {
