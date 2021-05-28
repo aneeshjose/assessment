@@ -2,6 +2,7 @@ import 'package:bluepad_assessment/cubit/bottom_sheet_cubit_cubit.dart';
 import 'package:bluepad_assessment/cubit/post_cubit.dart';
 import 'package:bluepad_assessment/presentation/screens/blog_comments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rect_getter/rect_getter.dart';
 
@@ -225,7 +226,7 @@ class _BlogHomeState extends State<BlogHome> {
                     child: RectGetter(
                       key: listViewKey,
                       child: ListView.builder(
-                        // controller: _scrollController,
+                        controller: _scrollController,
                         itemCount: uiData.length,
                         itemBuilder: (context, index) {
                           _keys[index] = RectGetter.createGlobalKey();
@@ -267,11 +268,15 @@ class _BlogHomeState extends State<BlogHome> {
         _item = (index);
     });
     // remove the bottom button set if the bottombuttons inside the page on the screen
-    if (_item >= 5) {
+    if (_item >= 6) {
       BlocProvider.of<BottomSheetCubitCubit>(context).removeBottomButtons();
     }
     // Add the bottom button set if the bottombuttons inside the page out of the page
-    if (_item < 5) {
+    else if (_item <= 5 &&
+        _scrollController.position.userScrollDirection ==
+            ScrollDirection.reverse) {
+      BlocProvider.of<BottomSheetCubitCubit>(context).addBottomButtons();
+    } else if (_item <= 5) {
       BlocProvider.of<BottomSheetCubitCubit>(context).addBottomButtons();
     }
   }
