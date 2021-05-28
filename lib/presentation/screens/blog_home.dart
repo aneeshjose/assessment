@@ -243,7 +243,9 @@ class _BlogHomeState extends State<BlogHome> {
                       if (state is RemoveBottomSheet) {
                         return Container();
                       }
-                      return BottomActionButtons(postId: post.id);
+                      return Container(
+                          padding: EdgeInsets.all(10),
+                          child: BottomActionButtons(postId: post.id));
                     },
                   )
                 ],
